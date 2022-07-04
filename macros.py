@@ -1,6 +1,9 @@
 import binascii
 import cmath
-import collections
+try:
+    from collections import Sequence, Iterable, Hashable
+except ImportError:  # Newer versions of python
+    from collections.abc import Sequence, Iterable, Hashable
 import copy
 import datetime
 import fractions
@@ -18,6 +21,10 @@ import time
 import urllib.request
 from ast import literal_eval
 import zlib
+try:
+    from fractions import gcd
+except ImportError:  # Newer versions of python
+    from math import gcd
 
 from data import c_to_f
 
@@ -27,15 +34,15 @@ def is_num(a):
 
 
 def is_seq(a):
-    return isinstance(a, collections.Sequence)
+    return isinstance(a, Sequence)
 
 
 def is_col(a):
-    return isinstance(a, collections.Iterable)
+    return isinstance(a, Iterable)
 
 
 def is_hash(a):
-    return isinstance(a, collections.Hashable)
+    return isinstance(a, Hashable)
 
 
 def is_lst(a):
@@ -738,7 +745,7 @@ def base_10(a, b):
     if is_seq(a) and is_num(b):
         return to_base_ten(a, b)
     if isinstance(a, int) and isinstance(b, int):
-        return fractions.gcd(a, b)
+        return gcd(a, b)
     return unknown_types(base_10, "i", a, b)
 environment['base_10'] = base_10
 
